@@ -1,0 +1,174 @@
+/* 网页背景图 */
+
+body{
+    background-image: url("../images/beijing.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* 网页背景图 */
+
+.back{
+    text-decoration: none;
+    color: aliceblue;
+    position: relative;
+    left: 55px;
+    top: 30px;
+    font-size: 20px;
+}
+.container{
+    width: 800px;
+    height: 700px;
+    /* background-color: aqua; */
+    position: relative;
+    left: 800px;
+    top: 100px;
+}
+
+/* 头像 */
+.profile-picture{
+    width: 100px;
+    height: 100px;
+    background-image: url("../images/pikaqiu.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 300px;
+    top: 50px;
+    border-radius: 100%;
+    box-shadow: 0px 10px 20px rgb(85, 85, 97);
+}
+/* 头像 */
+
+.name1{
+    width: 100px;
+    height: 20px;
+    position: absolute;
+    right: 280px;
+    top: 170px;
+    font-size: 20px;
+    
+}
+
+
+/* 介绍框 */
+.in-container{
+    display: flex;
+    width: 700px;
+    height: 400px;
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+    /* box-shadow: 0px 10px 20px rgb(85, 85, 97); */
+    /* background-color: azure; */
+
+}
+
+.nav{
+    width: 680px;
+    height: 50px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    background-color: rgba(224, 203, 99, 0.925);
+    border-radius: 5px;
+    border: 1px solid rgb(164, 157, 157);
+    
+}
+.nav-1,.nav-2,.nav-3{
+    opacity: 0.7;
+}
+
+.container ul li{
+    float: left;
+    margin: 0 10px;
+
+}
+
+.container ul li a{
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    margin-right: 150px;
+    
+}
+ /* .container ul li:hover{
+    background-color: rgb(255, 196, 0);
+}  */
+
+.text1,.text2,.text3{
+    width: 680px;
+    height: 300px;
+    background-color: rgb(133, 199, 232);
+    border: 1px solid rgb(193, 188, 188);
+    border-top: none;
+    position: absolute;
+    top: 51px;
+    left: 0px;
+    border-radius: 5px;
+    opacity: 0.8;
+}
+
+p{
+    opacity: 0.8;
+}
+
+span{
+    font-size: 16px;
+}
+
+.text1{
+    font-size: 16px;
+}
+
+img{
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    left: 200px;
+    bottom: 50px;
+    opacity: 0.9;
+}
+
+
+
+/* 滑动门 */
+.text1{
+    display: block;
+}
+.text2,.text3{
+    display: none;
+}
+
+.nav-1:hover > .text1{
+    display: block;
+}
+.nav-1:hover > .text2{
+    display: none;
+}
+.nav-1:hover > .text3{
+    display: none;
+}
+.nav-2:hover > .text1{
+    display: none;
+}
+.nav-2:hover > .text2{
+    display: block;
+}
+.nav-2:hover > .text3{
+    display: none;
+}
+.nav-3:hover > .text1{
+    display: none;
+}
+.nav-3:hover > .text2{
+    display: none;
+}
+.nav-3:hover > .text3{
+    display: block;
+}
+/* 滑动门 */
+
+/* 介绍框 */
+
+

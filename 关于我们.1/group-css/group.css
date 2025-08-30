@@ -1,0 +1,131 @@
+body{
+    background-image: url("../image/background.png");
+    background-size: cover;
+}
+
+h2{
+    color: aliceblue;
+    text-align: center;
+    /* margin-top: 100px; */
+}
+
+.title1{
+    margin-top: 40px;
+}
+
+.back{
+    text-decoration: none;
+    color: aliceblue;
+    position: relative;
+    left: 35px;
+    top: 20px;
+    font-size: 20px;
+}
+
+.content{
+    width: 60%;
+    max-width: 700px;
+    height: 200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    color: aliceblue;
+    background-color: rgba(100, 100, 100, 0.3);
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.1);
+    border-radius: 15px;
+    font-size: 20px;
+}
+
+.frame{
+    width: 60%;
+    max-width: 700px;
+    height: 450px;
+    margin: 0 auto;
+    margin-top: 40px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-direction: column;
+    /* position: relative; */
+    background-color: rgba(100, 100, 100, 0.3);
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.1);
+    border-radius: 15px;
+}
+.frame-up{
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+    /* position: absolute; */
+}
+.frame-down{
+    display: flex;
+    justify-content: center;
+   gap: 70px;
+    /* position: absolute; */
+}
+@media (max-width: 600px) {
+    .frame-up, .frame-down{
+        gap: 30px; 
+    }
+}
+.frame-up div,.frame-down div{
+    display: inline-block;
+    text-align: center;
+}
+
+/* 头像 */
+.frame img{
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 0.5px;
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.3);
+    transition: transform 0.3s ease,box-shadow 0.3s ease;
+}
+/* 头像 */
+
+/* 名字 */
+.frame div p{
+    color: aliceblue;
+    transition: transform 0.3s ease;
+}
+/* 名字 */
+
+/* 鼠标悬停放大动画 */
+.picture-1:hover img{
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.4);
+}
+.picture-1:hover p{
+    transform: scale(1.1);
+}
+.picture-2:hover img{
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.4);
+}
+.picture-2:hover p{
+    transform: scale(1.1);
+}
+.picture-3:hover img{
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.4);
+}
+.picture-3:hover p{
+    transform: scale(1.1);
+}
+.picture-4:hover img{
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.4);
+}
+.picture-4:hover p{
+    transform: scale(1.1);
+}
+.picture-5:hover img{
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px 2px rgb(0, 0, 0,0.4);
+}
+.picture-5:hover p{
+    transform: scale(1.1);
+}
+/* 鼠标悬停放大动画 */

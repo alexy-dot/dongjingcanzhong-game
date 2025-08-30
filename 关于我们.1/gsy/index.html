@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高思阳Alexy - 个人主页</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Alexy</span>
+                <div class="logo-dot"></div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active" data-page="home">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#blog" class="nav-link" data-page="blog">
+                        <i class="fas fa-blog"></i>
+                        <span>博客</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#notes" class="nav-link" data-page="notes">
+                        <i class="fas fa-book"></i>
+                        <span>笔记</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#hobbies" class="nav-link" data-page="hobbies">
+                        <i class="fas fa-heart"></i>
+                        <span>兴趣</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#friends" class="nav-link" data-page="friends">
+                        <i class="fas fa-users"></i>
+                        <span>朋友</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link" data-page="contact">
+                        <i class="fas fa-envelope"></i>
+                        <span>联系我</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content">
+        <!-- 首页 -->
+        <section id="home" class="page active">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <div class="avatar-container">
+                                <img src="assets/images/gsy头像.jpg" alt="Alexy" class="avatar-img">
+                                <div class="avatar-glow"></div>
+                            </div>
+                        </div>
+                        <h1 class="hero-title">你好，我是 高思阳</h1>
+                        <p class="hero-subtitle">北京理工大学 2024级 人工智能专业</p>
+                        <div class="hero-tags">
+                            <span class="tag">AI</span>
+                            <span class="tag">机器学习</span>
+                            <span class="tag">机器人</span>
+                            <span class="tag">深度学习</span>
+                        </div>
+                        <div class="hero-description">
+                            <p>热爱人工智能技术</p>
+                            <p>喜欢分享技术心得，记录学习笔记，结识志同道合的朋友。</p>
+                        </div>
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" onclick="scrollToSection('blog')">
+                                <i class="fas fa-arrow-down"></i>
+                                欢迎和我交盆友哦🥳
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-elements">
+                    <div class="floating-icon" style="--delay: 0s">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="floating-icon" style="--delay: 1s">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="floating-icon" style="--delay: 2s">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="floating-icon" style="--delay: 3s">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 博客页面 -->
+        <section id="blog" class="page">
+            <div class="page-header">
+                <h2 class="page-title">我的博客</h2>
+                <p class="page-subtitle">分享技术心得，记录学习历程（暂时没有填充内容）</p>
+            </div>
+            <div class="blog-container">
+                <div class="blog-filters">
+                    <button class="filter-btn active" data-filter="all">全部</button>
+                    <button class="filter-btn" data-filter="dailylife">我的日常</button>
+                    <button class="filter-btn" data-filter="ai">人工智能</button>
+                    <button class="filter-btn" data-filter="ml">机器学习</button>
+                    <button class="filter-btn" data-filter="robotics">机器人</button>
+                    <button class="filter-btn" data-filter="tech">技术分享</button>
+                </div>
+                <div class="blog-grid" id="blogGrid">
+                    <!-- 博客文章将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 笔记页面 -->
+        <section id="notes" class="page">
+            <div class="page-header">
+                <h2 class="page-title">学习笔记</h2>
+                <p class="page-subtitle">系统化的知识整理与分享(暂时没有填充内容)
+                </p>
+            </div>
+            <div class="notes-container">
+                <div class="notes-categories">
+                    <div class="category-card" data-category="dsa">
+                        <div class="category-icon">
+                            <i class="fas fa-sort-amount-down"></i>
+                        </div>
+                        <h3>数据结构与算法</h3>
+                        <p>经典算法实现与优化技巧</p>
+                        <div class="category-stats">
+                            <span class="stat">文章: 0</span>
+                            <span class="stat">更新: 2025.8.28</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="deep-learning">
+                        <div class="category-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>深度学习</h3>
+                        <p>神经网络理论与实践应用</p>
+                        <div class="category-stats">
+                            <span class="stat">文章: 0</span>
+                            <span class="stat">更新: 2025.8.28</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="robotics">
+                        <div class="category-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>机器人</h3>
+                        <p>机器人学基础与控制算法</p>
+                        <div class="category-stats">
+                            <span class="stat">文章: 0</span>
+                            <span class="stat">更新: 2025.8.28</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="ai">
+                        <div class="category-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h3>人工智能</h3>
+                        <p>AI理论与前沿技术探索</p>
+                        <div class="category-stats">
+                            <span class="stat">文章: 0</span>
+                            <span class="stat">更新: 2025.8.28</span>
+                        </div>
+                    </div>
+                    <div class="category-card" data-category="reading">
+                        <div class="category-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>读书分享</h3>
+                        <p>好书推荐与读书心得</p>
+                        <div class="category-stats">
+                            <span class="stat">文章: 0</span>
+                            <span class="stat">更新: 2025.8.28</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 兴趣爱好页面 -->
+        <section id="hobbies" class="page">
+            <div class="page-header">
+                <h2 class="page-title">兴趣爱好</h2>
+                <p class="page-subtitle">生活不止代码，还有诗和远方</p>
+            </div>
+            <div class="hobbies-container">
+                <div class="hobby-grid">
+                    <div class="hobby-card">
+                        <div class="hobby-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>王者荣耀技术研究</h3>
+                        <p>农是一个让人恼怒的游戏，本喵是8年老农民，最最最喜欢公孙离</p>
+                    </div>
+                    <div class="hobby-card">
+                        <div class="hobby-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>日系萌妹</h3>
+                        <p>本喵喜欢jk和日系～欢迎有同样兴趣的伙伴们一起交流</p>
+                    </div>
+                    <div class="hobby-card">
+                        <div class="hobby-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>读书</h3>
+                        <p>本喵性格比较内向，因此相比社交更喜欢读书</p>
+                    </div>
+                    <div class="hobby-card">
+                        <div class="hobby-icon">
+                            <i class="fas fa-piano"></i>
+                        </div>
+                        <h3>钢琴</h3>
+                        <p>钢琴的音色真的是本喵最喜欢的乐器音色～欢迎交流</p>
+                    </div>
+                    <div class="hobby-card">
+                        <div class="hobby-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3>Rap</h3>
+                        <p>喵，我喜欢罗生门和很多中文rap的氛围感</p>
+                    </div>
+                    <div class="hobby-card">
+                        <div class="hobby-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>编程</h3>
+                        <p>本喵目前在学习python,cpp,sql欢迎和我交流～</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 朋友页面 -->
+        <section id="friends" class="page">
+            <div class="page-header">
+                <h2 class="page-title">我的朋友</h2>
+                <p class="page-subtitle">志同道合的伙伴们(暂时没有填充内容)</p>
+            </div>
+            <div class="friends-container">
+                <div class="friends-grid" id="friendsGrid">
+                    <!-- 朋友卡片将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系我页面 -->
+        <section id="contact" class="page">
+            <div class="page-header">
+                <h2 class="page-title">联系我</h2>
+                <p class="page-subtitle">让我们一起交流学习</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>邮箱</h3>
+                        <p>1486225924@qq.com</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <h3>GitHub</h3>
+                        <p>github.com/alexy-dot</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-weixin"></i>
+                        </div>
+                        <h3>微信</h3>
+                        <p>13099035308</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-qq"></i>
+                        </div>
+                        <h3>QQ</h3>
+                        <p>1486225924</p>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>给我留言</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="你的姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="你的邮箱" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="留言内容" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">发送留言</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- 页面加载动画 -->
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p>正在加载...</p>
+        </div>
+    </div>
+
+    <script src="scripts/main.js"></script>
+    <script src="scripts/animations.js"></script>
+</body>
+</html> 

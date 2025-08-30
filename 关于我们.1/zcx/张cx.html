@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人介绍 - 张辰旭</title>
+    <style>
+        /* 1. 基础重置：消除浏览器默认边距，统一盒模型 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'KaiTi', serif;
+            color: #3e0f0f;
+            line-height: 1.8; /* 优化文字行高，提升阅读感 */
+            /* 背景图比例优化：固定背景+适配屏幕 */
+            background-image: url("c67138ebed6e4dcda41b61d362d22fad.png");
+            background-color: #dce7c6; /* 背景图加载失败时的降级色 */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover; /* 背景图自适应屏幕，保持比例 */
+            background-attachment: fixed; /* 滚动时背景固定，避免画面断层 */
+            min-height: 100vh;
+            padding: 20px 10px; /* 小屏幕预留边距，避免元素贴边 */
+        }
+
+        /* 2. 返回按钮：固定位置但适配屏幕，避免遮挡内容 */
+        .back {
+            text-decoration: none;
+            color: #3e0f0f;
+            font-size: clamp(1.2rem, 3vw, 1.8rem); /* 响应式字体，随屏幕缩放 */
+            background-color: rgba(255,255,255,0.8);
+            padding: 8px 16px;
+            border-radius: 8px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 10; /* 确保在最上层，不被其他元素遮挡 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* 3. 标题：控制最大宽度+响应式字体，避免比例失调 */
+        #x1 {
+            font-size: clamp(2rem, 8vw, 4rem); /* 屏幕越小字体越小，最大4rem */
+            text-align: center;
+            border-radius: 40px;
+            padding: 30px 0; /* 上下内边距，保持标题比例 */
+            background-image: url("175b63af145b711.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover; /* 标题背景图自适应，保持比例 */
+            color: white; /* 标题文字白色，提升背景图上的可读性 */
+            text-shadow: 0 3px 6px rgba(0,0,0,0.5); /* 文字阴影，增强层次感 */
+            max-width: 1200px; /* 限制标题最大宽度，宽屏上不拉伸变形 */
+            margin: 0 auto 40px; /* 居中+底部间距，分隔标题与内容 */
+        }
+
+        /* 4. 核心内容区：Flex布局，自动适配屏幕，保持头像+信息的比例 */
+        .content-wrapper {
+            max-width: 1400px; /* 限制内容区最大宽度，避免宽屏上元素过散 */
+            margin: 0 auto; /* 内容区居中，保持画面平衡 */
+            display: flex; /* 弹性布局：小屏幕自动换行，大屏幕横向排列 */
+            flex-wrap: wrap; /* 允许换行，适配小屏幕 */
+            align-items: center; /* 纵向居中，保持头像与文字的垂直比例 */
+            gap: 30px; /* 头像与信息之间的间距，比固定margin更灵活 */
+            justify-content: center; /* 整体内容居中，避免偏移 */
+            margin-bottom: 50px;
+        }
+
+        /* 5. 头像：固定宽高比，避免拉伸变形 */
+        .jieshao {
+            width: clamp(150px, 20vw, 200px); /* 响应式宽度：最小150px，最大200px */
+            height: clamp(160px, 22vw, 210px); /* 宽高比约1:1.05，保持头像比例 */
+            border-radius: 50%; /* 圆形头像（可选，原方角可保留100px圆角） */
+            background-image: url("证件照.jpg");
+            background-position: center;
+            background-size: cover; /* 头像自适应容器，不拉伸 */
+            background-repeat: no-repeat;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 头像阴影，增强立体感 */
+        }
+
+        /* 6. 姓名职务区：随头像宽度自适应，保持横向比例 */
+        .jieshao1 {
+            font-size: clamp(1.5rem, 4vw, 2.2rem); /* 响应式字体，与头像比例匹配 */
+            text-align: center; /* 文字居中，小屏幕上更协调 */
+            min-width: 280px; /* 最小宽度，避免文字挤成一行 */
+        }
+
+        /* 7. 个人简介区：控制宽度比例，避免过宽或过窄 */
+        .jieshao2 {
+            background-color: rgba(102, 73, 73, 0.837);
+            color: white; /* 文字白色，与深色背景对比 */
+            border-radius: 25px;
+            width: 100%; /* 占满父容器宽度，适配不同屏幕 */
+            max-width: 1200px; /* 最大宽度，避免宽屏上文字行过长（影响阅读） */
+            padding: 40px 30px; /* 内边距，保持内容与边框的比例 */
+            margin: 0 auto; /* 居中，保持画面对称 */
+            box-shadow: 0 5px 15px rgba(255,204,0,0.6); /* 阴影优化，更清晰 */
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem); /* 响应式字体，适配不同屏幕 */
+        }
+
+        /* 8. 简介标题：控制大小，与正文比例协调 */
+        h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ffeb3b; /* 标题黄色，突出重点 */
+        }
+
+        /* 9. 简介正文：首行缩进优化，保持段落比例 */
+        .jieshao2 p {
+            text-indent: 2em; /* 首行缩进2字符，符合中文阅读习惯 */
+            margin-bottom: 18px; /* 段落间距，提升阅读体验 */
+        }
+
+        /* 10. 小屏幕适配（补充：针对手机等窄屏） */
+        @media (max-width: 768px) {
+            .back {
+                top: 15px;
+                left: 15px;
+                font-size: 1.1rem; /* 手机上按钮字体缩小，避免遮挡 */
+            }
+            .jieshao2 {
+                padding: 30px 20px; /* 手机上减少内边距，节省空间 */
+            }
+            #x1 {
+                padding: 20px 0; /* 手机上标题内边距减少，避免占过多高度 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <a class="back" href="../小组介绍.1.html">返回</a>
+    <h1 id="x1">个人介绍</h1>
+    
+    <!-- 核心内容区：用Flex布局控制头像与信息的比例 -->
+    <div class="content-wrapper">
+        <div class="jieshao"></div>
+        <div class="jieshao1">
+            <p>姓名：张辰旭</p>
+            <p>职务：程序员</p>
+        </div>
+    </div>
+    
+    <div class="jieshao2">
+        <h2>个人简介</h2>
+        <p>初步开始学习前端的新手程序员，技术水平一般但是可以自学不断提高自己的技术水平，希望能通过学习web网页设计初步提高自己的实践能力和解决问题的能力</p>
+        <p>爱好是打篮球，技术一般但是喜欢和朋友单挑。同时我还很喜欢和朋友一起玩游戏，各种fps类游戏，moba类游戏或者一些休闲生存类的联机游戏如幻兽帕鲁。</p>
+        <p>因为喜欢玩游戏所以希望自己做出好玩的游戏。</p>
+    </div>
+</body>
+</html>

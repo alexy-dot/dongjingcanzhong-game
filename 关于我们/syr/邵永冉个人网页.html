@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邵永冉的个人主页</title>
+    <style>
+        /* 全局样式重置与基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "KaiTi", "STKaiti", serif;
+        }
+
+        body {
+            background-image: url(背景图.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #333;
+            min-height: 100vh;
+            padding-top: 50px; /* 为固定导航栏预留空间 */
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #333;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .nav-list {
+            list-style-type: none;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .nav-list li {
+            border-right: 1px solid #bbb;
+        }
+
+        .nav-list li:last-child {
+            margin-left: auto;
+            border-right: none;
+        }
+
+        .nav-list li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-size: 18px;
+        }
+
+        .nav-list li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .nav-list li a.active {
+            background-color: #555;
+            /* 如需使用背景图，请确保路径正确：
+            background-image: url(东京喰种.jpg);
+            background-size: cover;
+            background-position: center;
+            */
+        }
+
+        /* 容器样式 - 居中内容并增加可读性 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头像样式 */
+        .avatar-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border: 3px solid #dc3545;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        /* 标题样式 */
+        .title-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            color: #f0e6d6;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* 内容区域样式 */
+        .content-section {
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 10px;
+            padding: 30px;
+            color: white;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .contact-info {
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .bio-text {
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* 响应式设计 - 适配不同屏幕尺寸 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 40px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            .avatar {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+            
+            .nav-list li a {
+                padding: 12px 10px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li><a class="active" href="../小组介绍.html">返回</a></li>
+            <li><a href="#">个人介绍</a></li>
+            <li><a href="二维码.jpg">联系</a></li>
+            <li><a href="#">关于</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- 头像 -->
+        <div class="avatar-container">
+            <img src="微信头像.jpg" alt="邵永冉的头像" class="avatar">
+        </div>
+
+        <!-- 标题区域 -->
+        <div class="title-section">
+            <h1>邵永冉</h1>
+            <h2>专业：计算机科学与技术</h2>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content-section">
+            <div class="contact-info">
+                联系方式: w2360023
+            </div>
+            
+            <p class="bio-text">初入编程领域的新手小白一枚，目前还在摸索代码世界的基础逻辑。希望以后在编程这个领域不断提升自己，不断取得进步。</p>
+            
+            <p class="bio-text">同时我也热爱FPS类游戏，紧张又刺激的游戏节奏，沉浸式对局，极致的瞄准盛宴使我神经紧绷，热血沸腾。</p>
+            
+            <p class="bio-text">期待与你一起交流学习。</p>
+        </div>
+    </div>
+</body>
+</html>
