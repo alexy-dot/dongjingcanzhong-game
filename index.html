@@ -6,48 +6,71 @@
     <title>东京喰种 - 黑暗觉醒</title>
     
     <style>
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            z-index: 100; 
+            transition: transform 0.3s ease;
+        }
+        .music-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
         
-.music-btn {
-position: fixed;
-top: 20px;
-right: 20px;
-width: 50px;
-height: 50px;
-border: none;
-background: transparent;
-cursor: pointer;
-z-index: 100; 
-transition: transform 0.3s ease;
-}
-.music-btn img {
-width: 100%;
-height: 100%;
-object-fit: contain;
-}
-.music-btn:hover {
-transform: scale(1.1);
-}
+        .music-controls {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .music-controls button {
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: 1px solid #666;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .music-controls button:hover {
+            background: rgba(0, 0, 0, 0.9);
+            border-color: #999;
+        }
+        
+        .music-info {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 100;
+            max-width: 200px;
+        }
     </style>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="overflow-hidden min-h-screen bg-midnight">
     <!-- 背景容器 -->
-
-    <audio id="bgMusic" loop>
-<source src="music picture/unravel.mp3" type="audio/mpeg">
-<!-- 可以添加其他格式作为备选 -->
-<source src="music picture/unravel格式.ogg" type="audio/ogg">
-</audio>
-
-<button class="music-btn" id="musicControl">
-<!-- 播放状态图片 -->
-<img src="music picture/音乐按钮.jpg" alt="播放音乐" id="musicIcon">
-</button>
-
-
-
-
     <div class="fixed inset-0 z-0">
         <!-- 背景图片 -->
         <img src="7ef9de233ebe8a527e3c55e7f2ce8a4.jpg" 
@@ -55,6 +78,26 @@ transform: scale(1.1);
         
         <!-- 雪花/雨滴粒子容器 -->
         <div id="particleContainer" class="absolute inset-0"></div>
+    </div>
+    
+    <!-- 音频信息显示 -->
+    <div class="music-info" id="musicInfo">
+        <div>当前播放: <span id="currentTrack">未播放</span></div>
+        <div>音量: <span id="currentVolume">50%</span></div>
+    </div>
+    
+    <!-- 音频控制按钮 -->
+    <button id="musicControl" class="music-btn">
+        <img id="musicIcon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyQzIgMTcuNTIgNi40OCAyMiAxMiAyMkMxNy41MiAyMiAyMiAxNy41MiAyMiAxMkMyMiA2LjQ4IDE3LjUyIDIgMTIgMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMCAxNkMxMCAxNy4xIDkuMSAxOCA4IDE4QzYuOSAxOCA2IDE3LjEgNiAxNkM2IDE0LjkgNi45IDE0IDggMTRDOS4xIDE0IDEwIDE0LjkgMTAgMTZaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMTYgMTRDMTYgMTUuMSAxNS4xIDE2IDE0IDE2QzEyLjkgMTYgMTIgMTUuMSAxMiAxNEMxMiAxMi45IDEyLjkgMTIgMTQgMTJDMTUuMSAxMiAxNiAxMi45IDE2IDE0WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEwIDhDMTAgOS4xIDkuMSAxMCA4IDEwQzYuOSAxMCA2IDkuMSA2IDhDNiA2LjkgNi45IDYgOCA2QzkuMSA2IDEwIDYuOSAxMCA4WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTE2IDZDNiAxNiA2IDE2IDE2IDZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K" alt="音乐控制">
+    </button>
+    
+    <!-- 音频控制面板 -->
+    <div class="music-controls">
+        <button id="playBGM">播放BGM</button>
+        <button id="stopBGM">停止BGM</button>
+        <button id="nextBGM">下一首</button>
+        <button id="volumeUp">音量+</button>
+        <button id="volumeDown">音量-</button>
     </div>
     
     <!-- 页面标题 -->
@@ -90,6 +133,9 @@ transform: scale(1.1);
         </div>
     </div>
 
+    <!-- 引入音频控制器 -->
+    <script src="script/manager/audiocontroller.js"></script>
+    
     <script>
         // 创建雪花/雨滴粒子效果
         function createParticles() {
@@ -148,35 +194,35 @@ transform: scale(1.1);
                 setTimeout(() => {
                     this.style.transform = '';
                 }, 200);
-                
-               
             });
         });
         
-        // 页面加载完成后创建粒子效果
-        window.addEventListener('load', createParticles);
-        const bgMusic = document.getElementById('bgMusic');
-const musicControl = document.getElementById('musicControl');
-const musicIcon = document.getElementById('musicIcon');
-let isPlaying = false;
-
-musicControl.addEventListener('click', function() {
-    if (isPlaying) {
-        bgMusic.pause();
-        // 这里需要准备一个暂停状态的图标
-        musicIcon.src = 'music picture/音乐按钮.jpg';
-    } else {
-        // 尝试播放音乐
-        bgMusic.play().catch(e => {
-            console.log('播放失败:', e);
-            alert('请点击按钮播放音乐（浏览器限制自动播放）');
+        // 更新音乐信息显示
+        function updateMusicInfo() {
+            if (window.audioController) {
+                const info = window.audioController.getCurrentTrackInfo();
+                if (info) {
+                    document.getElementById('currentTrack').textContent = info.name;
+                    document.getElementById('currentVolume').textContent = Math.round(info.volume * 100) + '%';
+                }
+            }
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('load', () => {
+            createParticles();
+            
+            // 初始化音频控制器
+            window.audioController = new AudioController();
+            
+            // 定期更新音乐信息
+            setInterval(updateMusicInfo, 1000);
+            
+            // 初始更新一次
+            updateMusicInfo();
         });
-        // 这里替换为暂停状态的图标路径
-        musicIcon.src = 'music picture/音乐按钮.jpg';
-    }
-    isPlaying = !isPlaying;
-});
     </script>
 </body>
 </html>
+    
     
