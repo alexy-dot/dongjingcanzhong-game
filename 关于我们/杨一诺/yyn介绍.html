@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+      list-style: none;
+    }
+    .main {
+      width: 100%;
+      margin: auto;
+    }
+    .header, .nav, .container, .footer {
+      float: left;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .header {
+      background: #ccc;
+      height: 40vh;
+      padding: 50px;
+      text-align: center;
+      background-image: url('https://picsum.photos/id/1043/1920/1080');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+    }
+    .container{
+       background-image: url('https://ts3.tc.mm.bing.net/th/id/OIP-C.Ph-XpTYVHxuMLI-ClvmEiAHaEK?rs=1&pid=ImgDetMain&o=7&rm=3');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+
+    }
+    .nav {
+      background: #333;
+    }
+    .nav a {
+      color: #fff;
+      padding: 10px 20px;
+      height: 40px;
+      display: inline-block;
+    }
+    .nav a:hover {
+      background: #bbb;
+      color: #000;
+    }
+    /* 卡片容器：承载头像、姓名、内容 */
+    .card {
+      max-width: 600px;
+      margin: 20px auto; 
+      background-color: rgba(0, 0, 0, 0.5); 
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      line-height: 1.6;
+      position: relative; /* 给绝对定位的头像做参考 */
+    }
+    
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #5c5c5c; 
+      position: absolute;
+      top: -60px; /* 一半“浮”在卡片外 */
+      left: 50%;
+      transform: translateX(-50%);
+      object-fit: cover;
+    }
+   
+    .name, .major {
+      text-align: center;
+      margin-top: 70px; 
+    }
+    .name {
+      font-size: 28px;
+    }
+    .major {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    .content {
+      margin: 0 200px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .footer {
+      padding: 10px;
+      background: #ccc;
+      text-align: center;
+    }
+    .text-center{
+        text-align: center;
+    }
+    @media screen and (max-width:700px) {
+      .lside, .rside, .content {
+        width: 100%;
+        margin: 0;
+      }
+    }
+    .back{
+    text-decoration: none;
+    color: rgb(5, 5, 5);
+    position: relative;
+    left: 35px;
+    top: 5px;
+    font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <a class="back" href="../小组介绍.html">返回</a>
+  <div class="main">
+    <div class="header">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">做一个有趣的人</h1>
+      <p class="text-xl md:text-2xl max-w-2xl mb-8 text-gray-100">阅书 越山 悦己</p>
+    </div>
+    <div class="nav">
+      <a href="yyn介绍.html">首页</a>
+      <a href="yynpage1.html">我的爱好</a>
+      <a href="yynpage2.html">联系方式</a>
+    </div>
+    <div class="container">
+      <div class="content">
+        <!-- 把头像、姓名、专业放进 .card 容器 -->
+        <div class="card">
+          <img src="微信图片_20250828124446.jpg" alt="头像" class="avatar">
+          <h1 class="name">杨一诺</h1>
+          <h3 class="major">计算机科学与技术专业</h3>
+          <p class="text-center">来自浙江金华</p>
+          <p class="text-center">性格开朗，对学习生活都充满热情</p>
+          <p class="text-center">编程小白，努力寻找方向中</p>
+          <p class="text-center">06/isfp/巨蟹座</p>
+          <p class="text-center">乙女游戏狂热爱好者</p>
+          <p class="text-center">日常热爱发呆</p>
+          <p class="text-center">永远相信爱与梦想</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p></p>
+    </div>
+  </div>
+</body>
+</html>

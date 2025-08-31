@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东京食尸鬼 - 登录与注册界面</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f0f0f0;
+            background-color: #0a0a0a;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('7ef9de233ebe8a527e3c55e7f2ce8a4.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.5) contrast(1.2);
+            z-index: -1;
+        }
+        
+        /* 雪花/雨滴粒子容器 */
+        #particleContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #ff4d4d;
+            text-shadow: 0 0 10px rgba(255, 77, 77, 0.7);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            font-style: italic;
+        }
+        
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: rgba(10, 10, 10, 0.85);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .form-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-section h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 107, 107, 0.3);
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #f0f0f0;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #f0f0f0;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff4d4d;
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: #ff3333;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .tips-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+        }
+        
+        .tips-section h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .tips-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .rules-list {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        .rules-list li {
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+        
+        .highlight {
+            background-color: rgba(255, 77, 77, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+            color: #ffcccc;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ff4d4d;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: #ff3333;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .form-group.error input {
+            border-color: #ef4444;
+        }
+        
+        .form-group.error .error-message {
+            display: block;
+        }
+        
+        /* 粒子动画样式 */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(10px);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background"></div>
+        
+        <!-- 雪花/雨滴粒子容器 -->
+        <div id="particleContainer"></div>
+        
+        <header>
+            <h1>東京喰種escape</h1>
+            <div class="subtitle">登录与注册</div>
+        </header>
+        
+        <div class="content">
+            <div class="form-container">
+                <!-- 登录表单 -->
+                <div class="form-section">
+                    <h2>🔐 登录</h2>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginUsername">用户名</label>
+                            <input type="text" id="loginUsername" name="username" placeholder="请输入用户名" required>
+                            <div class="error-message" id="loginUsername-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loginPassword">密码</label>
+                            <input type="password" id="loginPassword" name="password" placeholder="请输入密码" required>
+                            <div class="error-message" id="loginPassword-error"></div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">登录</button>
+                    </form>
+                </div>
+                
+                <!-- 注册表单 -->
+                <div class="form-section">
+                    <h2>📝 注册</h2>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerUsername">用户名</label>
+                            <input type="text" id="registerUsername" name="username" placeholder="请输入用户名" required>
+                            <div class="error-message" id="registerUsername-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerPassword">密码</label>
+                            <input type="password" id="registerPassword" name="password" placeholder="请输入密码" required>
+                            <div class="error-message" id="registerPassword-error"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword">确认密码</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+                            <div class="error-message" id="confirmPassword-error"></div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">注册</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- 密码规则提示 -->
+            <div class="tips-section">
+                <h3>💡 密码设置提示</h3>
+                <div class="tips-content">
+                    <p><strong>基础要求：</strong>必须包含数字和字母且密码长度大于6</p>
+                    <p><strong>以下规则至少满足一条：</strong></p>
+                    <ul class="rules-list">
+                        <li>同时包含大小写字母</li>
+                        <li>包含特殊符号</li>
+                        <li>密码长度大于10</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <a href="index.html" class="back-link">← 返回主页</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 创建雪花/雨滴粒子效果
+        function createParticles() {
+            const container = document.getElementById('particleContainer');
+            const particleCount = 80;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机属性
+                const size = Math.random() * 2 + 1;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 8;
+                const duration = Math.random() * 15 + 10;
+                
+                // 设置样式
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // 清除错误提示
+        function clearErrors() {
+            document.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('error');
+            });
+            
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.textContent = '';
+            });
+        }
+        
+        // 显示错误信息
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + '-error');
+            
+            if (field && errorDiv) {
+                field.parentElement.classList.add('error');
+                errorDiv.textContent = message;
+            }
+        }
+        
+        // 密码强度验证
+        function validatePassword(password) {
+            let strengthScore = 0;
+            let errors = [];
+            
+            // 基础验证
+            if (password.length < 6) {
+                errors.push('密码长度必须大于6位');
+                return { isValid: false, errors, strengthScore: 0 };
+            }
+            
+            if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(password)) {
+                errors.push('密码必须同时包含字母和数字');
+                return { isValid: false, errors, strengthScore: 0 };
+            }
+            
+            // 额外规则验证
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) {
+                strengthScore++;
+            }
+            
+            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+                strengthScore++;
+            }
+            
+            if (password.length > 10) {
+                strengthScore++;
+            }
+            
+            if (strengthScore === 0) {
+                errors.push('密码强度不足，请满足至少一条额外规则');
+                return { isValid: false, errors, strengthScore: 0 };
+            }
+            
+            return { isValid: true, errors: [], strengthScore: strengthScore + 1 };
+        }
+        
+        // 登录表单处理
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearErrors();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            // 验证用户名
+            if (!username) {
+                showError('loginUsername', '请输入用户名');
+                return;
+            }
+            
+            // 验证密码
+            if (!password) {
+                showError('loginPassword', '请输入密码');
+                return;
+            }
+            
+            // 这里可以添加实际的登录验证逻辑
+            // 模拟登录成功
+            alert('登录成功！正在跳转到主页...');
+            setTimeout(() => {
+                window.location.href = 'index1.html';
+            }, 1000);
+        });
+        
+        // 注册表单处理
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearErrors();
+            
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // 验证用户名
+            if (!username) {
+                showError('registerUsername', '请输入用户名');
+                return;
+            }
+            
+            if (username.length < 3) {
+                showError('registerUsername', '用户名长度至少3位');
+                return;
+            }
+            
+            // 验证密码
+            if (!password) {
+                showError('registerPassword', '请输入密码');
+                return;
+            }
+            
+            // 验证确认密码
+            if (!confirmPassword) {
+                showError('confirmPassword', '请确认密码');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showError('confirmPassword', '两次输入的密码不一致');
+                return;
+            }
+            
+            // 验证密码强度
+            const passwordValidation = validatePassword(password);
+            if (!passwordValidation.isValid) {
+                passwordValidation.errors.forEach(error => {
+                    showError('registerPassword', error);
+                });
+                return;
+            }
+            
+            // 这里可以添加实际的注册逻辑
+            // 模拟注册成功
+            alert(`注册成功！\n用户名: ${username}\n密码强度: ${passwordValidation.strengthScore}/4\n正在跳转到登录页面...`);
+            setTimeout(() => {
+                // 清空表单
+                document.getElementById('registerForm').reset();
+                // 跳转到登录页面（当前页面）
+                window.location.reload();
+            }, 2000);
+        });
+        
+        // 实时验证
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.parentElement.classList.remove('error');
+                }
+            });
+        });
+        
+        // 页面加载完成后创建粒子效果
+        window.addEventListener('load', createParticles);
+    </script>
+</body>
+</html>

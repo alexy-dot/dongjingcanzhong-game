@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>东京喰种 - 黑暗觉醒</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="overflow-hidden min-h-screen bg-midnight">
+    <!-- 背景容器 -->
+    <div class="fixed inset-0 z-0">
+        <!-- 背景图片 -->
+        <img src="7ef9de233ebe8a527e3c55e7f2ce8a4.jpg" 
+             style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+      
+        
+        <!-- 雪花/雨滴粒子容器 -->
+        <div id="particleContainer" class="absolute inset-0"></div>
+    </div>
+    
+    <!-- 页面标题 -->
+    <div class="relative z-10 text-center mt-16 md:mt-24 animate-pulse">
+        <h1 style="font-size: clamp(2rem, 6vw, 4rem);" class="font-bold text-white text-shadow-glow tracking-wider">
+            東京喰種escape
+        </h1>
+    </div>
+    
+    <!-- 主内容区 - 按钮容器 -->
+    <div class="relative z-10 flex flex-col items-center justify-center flex-1 min-h-60vh px-4 py-8">
+        <div class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <!-- 登录按钮 -->
+            <button class="ghoul-btn btn-blood btn-login tentacle-border py-6 px-4 text-lg font-semibold transition-all duration-300 hover:glow-effect">
+                <div class="tentacle w-1/3 bg-darkblood/50 top-0 left-0"></div>
+                <i class="icon icon-sign-in mr-3"></i>
+                <a href="#">开始游戏</a>
+            </button>
+            
+            <!-- 游戏介绍按钮 -->
+            <button class="ghoul-btn btn-game tentacle-border py-6 px-4 text-lg font-semibold transition-all duration-300 hover:neon-glow">
+                <div class="tentacle w-1/3 bg-neon/30 bottom-0 right-0 transform-origin: right;"></div>
+                <i class="icon icon-gamepad mr-3"></i>
+                <a href="youxijieshao1.html">游戏介绍</a>
+            </button>
+            
+            <!-- 团队介绍按钮 -->
+            <button class="ghoul-btn btn-blood btn-team tentacle-border py-6 px-4 text-lg font-semibold transition-all duration-300 hover:glow-effect">
+                <div class="tentacle w-1/3 bg-blood/40 top-0 right-0 transform-origin: right;"></div>
+                <i class="icon icon-users mr-3"></i>
+                <a href="./关于我们.1/小组介绍.1.html">关于</a>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 创建雪花/雨滴粒子效果
+        function createParticles() {
+            const container = document.getElementById('particleContainer');
+            const particleCount = 80;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机属性
+                const size = Math.random() * 2 + 1;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 8;
+                const duration = Math.random() * 15 + 10;
+                
+                // 设置样式
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // 按钮交互效果
+        document.querySelectorAll('.ghoul-btn').forEach(button => {
+            // 图标动画效果
+            button.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('icon-sign-in')) {
+                    icon.style.transform = 'rotate(90deg)';
+                } else if (icon.classList.contains('icon-gamepad')) {
+                    // 添加弹跳动画
+                    icon.classList.add('animate-bounce');
+                    setTimeout(() => {
+                        icon.classList.remove('animate-bounce');
+                    }, 1000);
+                } else if (icon.classList.contains('icon-users')) {
+                    icon.style.animation = 'spin-slow 2s linear';
+                }
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('i');
+                icon.style.transform = 'rotate(0)';
+                icon.style.animation = '';
+            });
+            
+            // 点击效果
+            button.addEventListener('click', function() {
+                // 添加点击反馈
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                // 模拟按钮功能
+                const action = this.querySelector('span').textContent;
+                alert(`即将跳转到${action}页面`);
+            });
+        });
+        
+        // 页面加载完成后创建粒子效果
+        window.addEventListener('load', createParticles);
+    </script>
+</body>
+</html>
+    

@@ -1,0 +1,425 @@
+/* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* 颜色定义 */
+        :root {
+            --blood: #9b2226;
+            --darkblood: #7f1d1d;
+            --midnight: #0f172a;
+            --shadow: #1e293b;
+            --neon: #a855f7;
+            --white: #ffffff;
+            --white-transparent-10: rgba(255, 255, 255, 0.1);
+            --white-transparent-30: rgba(255, 255, 255, 0.3);
+            --white-transparent-50: rgba(255, 255, 255, 0.5);
+            --white-transparent-70: rgba(255, 255, 255, 0.7);
+            --red-transparent-50: rgba(239, 68, 68, 0.5);
+            --red-transparent-30: rgba(239, 68, 68, 0.3);
+            --purple-transparent-60: rgba(168, 85, 247, 0.6);
+            --purple-transparent-30: rgba(168, 85, 247, 0.3);
+        }
+        
+        body {
+            overflow: hidden;
+            min-height: 100vh;
+            background-color: var(--midnight);
+            color: var(--white);
+        }
+        
+        /* 布局类 */
+        .fixed {
+            position: fixed;
+        }
+        
+        .absolute {
+            position: absolute;
+        }
+        
+        .relative {
+            position: relative;
+        }
+        
+        .inset-0 {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .z-0 {
+            z-index: 0;
+        }
+        
+        .z-10 {
+            z-index: 10;
+        }
+        
+        .flex {
+            display: flex;
+        }
+        
+        .flex-col {
+            flex-direction: column;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .justify-center {
+            justify-content: center;
+        }
+        
+        .flex-1 {
+            flex: 1;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .mt-16 {
+            margin-top: 4rem;
+        }
+        
+        .mt-24 {
+            margin-top: 6rem;
+        }
+        
+        .mt-4 {
+            margin-top: 1rem;
+        }
+        
+        .mt-10 {
+            margin-top: 2.5rem;
+        }
+        
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+        
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        
+        .py-8 {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        
+        .pb-6 {
+            padding-bottom: 1.5rem;
+        }
+        
+        .grid {
+            display: grid;
+        }
+        
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+        
+        .gap-6 {
+            gap: 1.5rem;
+        }
+        
+        .gap-8 {
+            gap: 2rem;
+        }
+        
+        .max-w-3xl {
+            max-width: 64rem;
+        }
+        
+        .max-w-xl {
+            max-width: 36rem;
+        }
+        
+        .w-full {
+            width: 100%;
+        }
+        
+        .min-h-screen {
+            min-height: 100vh;
+        }
+        
+        .min-h-60vh {
+            min-height: 60vh;
+        }
+        
+        /* 字体样式 */
+        .text-4xl {
+            font-size: 2.5rem;
+        }
+        
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+        
+        .text-lg {
+            font-size: 1.125rem;
+        }
+        
+        .text-base {
+            font-size: 1rem;
+        }
+        
+        .text-sm {
+            font-size: 0.875rem;
+        }
+        
+        .font-bold {
+            font-weight: 700;
+        }
+        
+        .font-semibold {
+            font-weight: 600;
+        }
+        
+        .tracking-wider {
+            letter-spacing: 0.05em;
+        }
+        
+        /* 自定义工具类 */
+        .text-shadow {
+            text-shadow: 0 0 8px var(--white-transparent-30);
+        }
+        
+        .text-shadow-glow {
+            text-shadow: 0 0 10px var(--red-transparent-50), 0 0 20px var(--red-transparent-30);
+        }
+        
+        .tentacle-border {
+            clip-path: polygon(
+                0 10%, 5% 0, 95% 0, 100% 10%, 
+                100% 90%, 95% 100%, 5% 100%, 0 90%
+            );
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 15px var(--red-transparent-50),
+                        0 0 30px var(--red-transparent-30);
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 10px var(--purple-transparent-60),
+                        0 0 20px var(--purple-transparent-30);
+        }
+        
+        /* 动画效果 */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-2px);
+            }
+            50% {
+                transform: translateY(2px);
+            }
+        }
+        
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* 背景雪花/雨滴动画 */
+        .particle {
+            position: absolute;
+            background-color: var(--white-transparent-30);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(10px);
+                opacity: 0;
+            }
+        }
+        .btn-blood::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 12px;
+            background-color: rgba(239, 68, 68, 0.6);
+            top: -12px;
+            left: 20%;
+            border-radius: 50% 50% 0 0;
+            animation: bloodDrip 4s infinite;
+        }
+        
+        .btn-blood::before {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 10px;
+            background-color: rgba(239, 68, 68, 0.4);
+            top: -10px;
+            right: 30%;
+            border-radius: 50% 50% 0 0;
+            animation: bloodDrip 5s 1.5s infinite;
+        }
+        
+        /* 按钮悬停时的触手伸展效果 */
+        @keyframes tentacleStretch {
+            0% {
+                transform: scaleX(0);
+            }
+            100% {
+                transform: scaleX(1);
+            }
+        }
+        
+        .btn-tentacle:hover .tentacle {
+            animation: tentacleStretch 0.5s ease-out forwards;
+        }
+        
+        /* 按钮样式 */
+        .ghoul-btn {
+            position: relative;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ghoul-btn i {
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .ghoul-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .ghoul-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* 按钮变体 */
+        .btn-login {
+            background-color: var(--blood);
+            color: var(--white);
+        }
+        
+        .btn-login:hover {
+            background-color: var(--darkblood);
+        }
+        
+        .btn-game {
+            background-color: var(--shadow);
+            border: 1px solid var(--white-transparent-10);
+            color: var(--white);
+        }
+        
+        .btn-game:hover {
+            border-color: var(--purple-transparent-60);
+        }
+        
+        .btn-team {
+            background-color: var(--midnight);
+            border: 1px solid rgba(155, 34, 38, 0.3);
+            color: var(--white);
+        }
+        
+        .btn-team:hover {
+            border-color: rgba(155, 34, 38, 0.7);
+        }
+        
+        /* 响应式设计 */
+        @media (min-width: 768px) {
+            .md\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+            
+            .md\:mt-24 {
+                margin-top: 6rem;
+            }
+            
+            .md\:gap-8 {
+                gap: 2rem;
+            }
+        }
+        
+        /* 字体图标样式模拟 */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }  
+        .tentacle {
+            position: absolute;
+            height: 1px;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
