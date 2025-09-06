@@ -87,7 +87,6 @@ object-fit: contain;
 .music-btn:hover {
 transform: scale(1.1);
 }
->>>>>>> bd6ce1564d2204af677a1b6c74adcf24035b3d59
     </style>
 
     <link rel="stylesheet" href="style.css">
@@ -125,11 +124,6 @@ transform: scale(1.1);
         <div>当前播放: <span id="currentTrack">未播放</span></div>
         <div>音量: <span id="currentVolume">50%</span></div>
     </div>
-    
-    <!-- 音频控制按钮 -->
-    <button id="musicControl" class="music-btn">
-        <img id="musicIcon" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyQzIgMTcuNTIgNi40OCAyMiAxMiAyMkMxNy41MiAyMiAyMiAxNy41MiAyMiAxMkMyMiA2LjQ4IDE3LjUyIDIgMTIgMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMCAxNkMxMCAxNy4xIDkuMSAxOCA4IDE4QzYuOSAxOCA2IDE3LjEgNiAxNkM2IDE0LjkgNi45IDE0IDggMTRDOS4xIDE0IDEwIDE0LjkgMTAgMTZaIiBmaWxsPSJibGFjayIvPgo8cGF0aCBkPSJNMTYgMTRDMTYgMTUuMSAxNS4xIDE2IDE0IDE2QzEyLjkgMTYgMTIgMTUuMSAxMiAxNEMxMiAxMi45IDEyLjkgMTIgMTQgMTJDMTUuMSAxMiAxNiAxMi45IDE2IDE0WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTEwIDhDMTAgOS4xIDkuMSAxMCA4IDEwQzYuOSAxMCA2IDkuMSA2IDhDNiA2LjkgNi45IDYgOCA2QzkuMSA2IDEwIDYuOSAxMCA4WiIgZmlsbD0iYmxhY2siLz4KPHBhdGggZD0iTTE2IDZDNiAxNiA2IDE2IDE2IDZaIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K" alt="音乐控制">
-    </button>
     
     <!-- 音频控制面板 -->
     <div class="music-controls">
@@ -175,7 +169,9 @@ transform: scale(1.1);
         </div>
     </div>
 
-
+    <!-- 引入音频控制器 -->
+    <script src="script/manager/audiocontroller.js"></script>
+    
     <script>
         // 创建雪花/雨滴粒子效果
         function createParticles() {
@@ -234,7 +230,7 @@ transform: scale(1.1);
                 setTimeout(() => {
                     this.style.transform = '';
                 }, 200);
-<<<<<<< HEAD
+                    
             });
         });
         
@@ -265,37 +261,3 @@ transform: scale(1.1);
     </script>
 </body>
 </html>
-    =======
-                
-               
-            });
-        });
-        
-        // 页面加载完成后创建粒子效果
-        window.addEventListener('load', createParticles);
-        const bgMusic = document.getElementById('bgMusic');
-const musicControl = document.getElementById('musicControl');
-const musicIcon = document.getElementById('musicIcon');
-let isPlaying = false;
-
-musicControl.addEventListener('click', function() {
-    if (isPlaying) {
-        bgMusic.pause();
-        // 这里需要准备一个暂停状态的图标
-        musicIcon.src = 'music picture/音乐按钮.jpg';
-    } else {
-        // 尝试播放音乐
-        bgMusic.play().catch(e => {
-            console.log('播放失败:', e);
-            alert('请点击按钮播放音乐（浏览器限制自动播放）');
-        });
-        // 这里替换为暂停状态的图标路径
-        musicIcon.src = 'music picture/音乐按钮.jpg';
-    }
-    isPlaying = !isPlaying;
-});
-    </script>
-</body>
-</html>
->>>>>>> bd6ce1564d2204af677a1b6c74adcf24035b3d59
-    
