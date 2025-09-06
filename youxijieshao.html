@@ -134,7 +134,16 @@ transform: scale(1.1);
 </head>
 <body>
 
+<audio id="bgMusic" loop>
+    <source src="music picture/unravel.mp3" type="audio/mpeg">
+    <!-- 可以添加其他格式作为备选 -->
+    <source src="music picture/unravel格式.ogg" type="audio/ogg">
+</audio>
 
+<button class="music-btn" id="musicControl">
+    <!-- 播放状态图片 -->
+    <img src="music picture/音乐按钮.jpg" alt="播放音乐" id="musicIcon">
+</button>
 
 
 
@@ -164,7 +173,28 @@ transform: scale(1.1);
         </div>
     </div>
     
-    <!-- 音乐播放器iframe -->
-    <iframe id="musicFrame" src="music-player.html" style="display:none;"></iframe>
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = document.getElementById('musicIcon');
+        let isPlaying = false;
+
+        musicControl.addEventListener('click', function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                // 这里需要准备一个暂停状态的图标
+                musicIcon.src = 'music picture/音乐按钮.jpg';
+            } else {
+                // 尝试播放音乐
+                bgMusic.play().catch(e => {
+                    console.log('播放失败:', e);
+                    alert('请点击按钮播放音乐（浏览器限制自动播放）');
+                });
+                // 这里替换为暂停状态的图标路径
+                musicIcon.src = 'music picture/音乐按钮.jpg';
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
 </body>
 </html>

@@ -6,6 +6,7 @@
     <title>东京喰种 - 黑暗觉醒</title>
     
     <style>
+<<<<<<< HEAD
         .music-btn {
             position: fixed;
             top: 20px;
@@ -65,12 +66,53 @@
             z-index: 100;
             max-width: 200px;
         }
+=======
+        
+.music-btn {
+position: fixed;
+top: 20px;
+right: 20px;
+width: 50px;
+height: 50px;
+border: none;
+background: transparent;
+cursor: pointer;
+z-index: 100; 
+transition: transform 0.3s ease;
+}
+.music-btn img {
+width: 100%;
+height: 100%;
+object-fit: contain;
+}
+.music-btn:hover {
+transform: scale(1.1);
+}
+>>>>>>> bd6ce1564d2204af677a1b6c74adcf24035b3d59
     </style>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="overflow-hidden min-h-screen bg-midnight">
     <!-- 背景容器 -->
+<<<<<<< HEAD
+=======
+
+    <audio id="bgMusic" loop>
+<source src="music picture/unravel.mp3" type="audio/mpeg">
+<!-- 可以添加其他格式作为备选 -->
+<source src="music picture/unravel格式.ogg" type="audio/ogg">
+</audio>
+
+<button class="music-btn" id="musicControl">
+<!-- 播放状态图片 -->
+<img src="music picture/音乐按钮.jpg" alt="播放音乐" id="musicIcon">
+</button>
+
+
+
+
+>>>>>>> bd6ce1564d2204af677a1b6c74adcf24035b3d59
     <div class="fixed inset-0 z-0">
         <!-- 背景图片 -->
         <img src="7ef9de233ebe8a527e3c55e7f2ce8a4.jpg" 
@@ -80,6 +122,7 @@
         <div id="particleContainer" class="absolute inset-0"></div>
     </div>
     
+<<<<<<< HEAD
     <!-- 音频信息显示 -->
     <div class="music-info" id="musicInfo">
         <div>当前播放: <span id="currentTrack">未播放</span></div>
@@ -100,6 +143,8 @@
         <button id="volumeDown">音量-</button>
     </div>
     
+=======
+>>>>>>> bd6ce1564d2204af677a1b6c74adcf24035b3d59
     <!-- 页面标题 -->
     <div class="relative z-10 text-center mt-16 md:mt-24 animate-pulse">
         <h1 style="font-size: clamp(4rem, 8vw, 6rem);" class="font-bold text-white text-shadow-glow tracking-wider">
@@ -133,9 +178,12 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <!-- 引入音频控制器 -->
     <script src="script/manager/audiocontroller.js"></script>
     
+=======
+>>>>>>> bd6ce1564d2204af677a1b6c74adcf24035b3d59
     <script>
         // 创建雪花/雨滴粒子效果
         function createParticles() {
@@ -194,6 +242,7 @@
                 setTimeout(() => {
                     this.style.transform = '';
                 }, 200);
+<<<<<<< HEAD
             });
         });
         
@@ -224,5 +273,37 @@
     </script>
 </body>
 </html>
-    
+    =======
+                
+               
+            });
+        });
+        
+        // 页面加载完成后创建粒子效果
+        window.addEventListener('load', createParticles);
+        const bgMusic = document.getElementById('bgMusic');
+const musicControl = document.getElementById('musicControl');
+const musicIcon = document.getElementById('musicIcon');
+let isPlaying = false;
+
+musicControl.addEventListener('click', function() {
+    if (isPlaying) {
+        bgMusic.pause();
+        // 这里需要准备一个暂停状态的图标
+        musicIcon.src = 'music picture/音乐按钮.jpg';
+    } else {
+        // 尝试播放音乐
+        bgMusic.play().catch(e => {
+            console.log('播放失败:', e);
+            alert('请点击按钮播放音乐（浏览器限制自动播放）');
+        });
+        // 这里替换为暂停状态的图标路径
+        musicIcon.src = 'music picture/音乐按钮.jpg';
+    }
+    isPlaying = !isPlaying;
+});
+    </script>
+</body>
+</html>
+>>>>>>> bd6ce1564d2204af677a1b6c74adcf24035b3d59
     
