@@ -1,0 +1,10 @@
+ body {
+            background-image: url(../游戏1背景.jpg);
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }

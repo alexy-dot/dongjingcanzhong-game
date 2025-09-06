@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更高跳跃高度的人物控制</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+   <link rel="stylesheet" href="./CSS文件/按键提示样式.css">
+      <link rel="stylesheet" href="./CSS文件/背景.css">
+      <link rel="stylesheet" href="./CSS文件/边界.css">
+      <link rel="stylesheet" href="./CSS文件/角色.css">
+      <link rel="stylesheet" href="./CSS文件/游戏范围.css">
+      <link rel="stylesheet" href="./CSS文件/控制.css">
+      <link rel="stylesheet" href="./CSS文件/按钮样式.css">
+      <link rel="stylesheet" href="./CSS文件/按钮的悬停效果样式.css">
+      <link rel="stylesheet" href="./CSS文件/设置说明文字.css">
+      <link rel="stylesheet" href="./CSS文件/NPC.css">
+      <style>
+        /* 头顶血条美化 */
+        .hp {
+          position: absolute;
+          transform: translate(-50%, -100%);
+          top: -12px;
+          left: 50%;
+          width: 110px;
+          height: 10px;
+          background: rgba(0, 0, 0, 0.35);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          border-radius: 6px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.18);
+          overflow: hidden;
+          backdrop-filter: blur(2px);
+        }
+        .hp__bar {
+          height: 100%;
+          width: 100%;
+          transition: width 200ms ease;
+          box-shadow: inset 0 0 6px rgba(0,0,0,0.25), 0 0 8px rgba(255,255,255,0.15);
+        }
+        .hp__bar--player {
+          background: linear-gradient(90deg, #60a5fa 0%, #2563eb 60%, #1d4ed8 100%);
+          filter: drop-shadow(0 0 4px rgba(59,130,246,0.6));
+        }
+        .hp__bar--npc {
+          background: linear-gradient(90deg, #f87171 0%, #ef4444 60%, #dc2626 100%);
+          filter: drop-shadow(0 0 4px rgba(239,68,68,0.6));
+        }
+
+        /* 传送门样式（科技门） */
+        .portal {
+          position: absolute;
+          width: 110px;
+          height: 130px;
+          transform: translate(-50%, -50%);
+          z-index: 10;
+          border-radius: 10px;
+          background:
+            /* 角落能量灯 */
+            radial-gradient(14px 14px at 10px 10px, rgba(0,255,255,0.85), rgba(0,255,255,0.0) 70%),
+            radial-gradient(14px 14px at calc(100% - 10px) 10px, rgba(0,255,255,0.85), rgba(0,255,255,0.0) 70%),
+            radial-gradient(14px 14px at 10px calc(100% - 10px), rgba(0,255,255,0.85), rgba(0,255,255,0.0) 70%),
+            radial-gradient(14px 14px at calc(100% - 10px) calc(100% - 10px), rgba(0,255,255,0.85), rgba(0,255,255,0.0) 70%),
+            /* 门体金属质感 */
+            linear-gradient(180deg, #0b1f2a 0%, #0c2732 40%, #0b1f2a 100%);
+          border: 2px solid rgba(0,255,255,0.55);
+          box-shadow:
+            0 8px 24px rgba(0,255,255,0.28),
+            inset 0 0 0 2px rgba(0,140,160,0.25),
+            inset 0 0 28px rgba(0,180,220,0.28);
+          overflow: hidden;
+        }
+        /* 墓碑样式（更真实的石材/雕刻/底座） */
+        .grave {
+          position: absolute;
+          width: 48px;
+          height: 66px;
+          transform: translate(-50%, -50%);
+          border-radius: 12px 12px 6px 6px;          /* 顶部更圆，底部略直 */
+          background:
+            /* 顶部高光 */
+            radial-gradient(60px 28px at 50% 8px, rgba(255,255,255,0.25), rgba(255,255,255,0.0) 70%),
+            /* 细微石纹噪点 */
+            repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 2px, rgba(0,0,0,0.03) 4px, rgba(0,0,0,0.03) 6px),
+            /* 主体石材渐变 */
+            linear-gradient(180deg, #a7adb3 0%, #8f949a 45%, #6f757c 100%);
+          border: 2px solid rgba(255,255,255,0.32);
+          box-shadow:
+            0 10px 16px rgba(0,0,0,0.38),          /* 外部阴影 */
+            inset 0 0 16px rgba(0,0,0,0.28),       /* 内部暗角 */
+            inset 0 6px 10px rgba(255,255,255,0.18); /* 顶部内高光 */
+        }
+        /* 雕刻的十字与刻纹（使用双方向的线条叠加） */
+        .grave::before {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 20px;
+          transform: translateX(-50%);
+          width: 26px;
+          height: 26px;
+          background:
+            linear-gradient(0deg, rgba(0,0,0,0.28) 0 100%),           /* 竖线阴影 */
+            linear-gradient(90deg, rgba(0,0,0,0.28) 0 100%);           /* 横线阴影 */
+          background-repeat: no-repeat;
+          background-size: 3px 100%, 100% 3px;                        /* 竖3px、横3px */
+          background-position: center center, center center;
+          filter: drop-shadow(0 1px 0 rgba(255,255,255,0.25));        /* 雕刻高光边 */
+          opacity: 0.9;
+          border-radius: 2px;
+        }
+        /* 石质底座 */
+        .grave::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          bottom: -6px;
+          transform: translateX(-50%);
+          width: 64px;
+          height: 10px;
+          border-radius: 4px;
+          background: linear-gradient(180deg, #5f666d, #4a5056);
+          box-shadow: 0 6px 10px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.15);
+        }
+        /* 内部发光框与电路线（扫描流动） */
+        .portal::before {
+          content: "";
+          position: absolute;
+          inset: 10px;
+          border-radius: 6px;
+          background:
+            /* 电路线（重复条纹） */
+            repeating-linear-gradient(90deg, rgba(0,255,255,0.12) 0px, rgba(0,255,255,0.12) 2px, transparent 2px, transparent 6px),
+            linear-gradient(180deg, rgba(0,255,255,0.12), rgba(0,255,255,0.02));
+          box-shadow:
+            inset 0 0 0 2px rgba(0,255,255,0.45),
+            inset 0 0 22px rgba(0,255,255,0.35);
+          animation: tech-flow 3.5s linear infinite;
+        }
+        /* 中央能量幕布 + 扫描线 */
+        .portal::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 86px;
+          height: 100px;
+          transform: translate(-50%, -50%);
+          border-radius: 6px;
+          background:
+            linear-gradient(180deg, rgba(0,255,255,0.10), rgba(0,255,255,0.02)),
+            repeating-linear-gradient(0deg, rgba(255,255,255,0.18) 0px, rgba(255,255,255,0.18) 2px, rgba(0,0,0,0.0) 4px, rgba(0,0,0,0.0) 6px),
+            radial-gradient(80px 60px at 50% 50%, rgba(0,200,255,0.25), rgba(0,200,255,0.10) 60%, rgba(0,200,255,0.05) 80%, rgba(0,200,255,0.0) 100%);
+          mix-blend-mode: screen;
+          box-shadow: inset 0 0 22px rgba(0,255,255,0.35);
+          animation: scan-vert 1.8s linear infinite;
+        }
+        @keyframes tech-flow { to { background-position: 100% 0, 0 0; } }
+        @keyframes scan-vert {
+          0% { opacity: 0.95; filter: brightness(1.0); }
+          50% { opacity: 0.7; filter: brightness(1.12); }
+          100% { opacity: 0.95; filter: brightness(1.0); }
+        }
+
+        /* 新增NPC攻击形态样式 */
+        /* 时间炸弹样式 */
+        .projectile--timebomb {
+          animation: timebomb-pulse 0.3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes timebomb-pulse {
+          0% { transform: scale(1); box-shadow: 0 0 10px #8e44ad; }
+          100% { transform: scale(1.1); box-shadow: 0 0 20px #8e44ad; }
+        }
+
+        .time-bomb-explosion {
+          animation: timebomb-explosion 0.8s ease-out forwards;
+        }
+        
+        @keyframes timebomb-explosion {
+          0% { transform: scale(0.5); opacity: 1; }
+          100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* 黑洞样式 */
+        .black-hole {
+          animation: blackhole-rotate 2s linear infinite;
+        }
+        
+        @keyframes blackhole-rotate {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* 闪电链样式 */
+        .chain-lightning {
+          animation: lightning-flicker 0.1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes lightning-flicker {
+          0% { opacity: 1; transform: scale(1); }
+          100% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .lightning-connection {
+          animation: lightning-connection 0.2s ease-out forwards;
+        }
+        
+        @keyframes lightning-connection {
+          0% { opacity: 1; width: 0; }
+          100% { opacity: 0; width: 100%; }
+        }
+
+        /* 冰霜新星样式 */
+        .frost-nova {
+          animation: frost-nova-expand 1.5s ease-out forwards;
+        }
+        
+        @keyframes frost-nova-expand {
+          0% { transform: scale(0.5); opacity: 1; }
+          100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* 毒雾样式 */
+        .poison-mist {
+          animation: poison-mist-fade 3s ease-out forwards;
+        }
+        
+        @keyframes poison-mist-fade {
+          0% { opacity: 0.6; transform: scale(1); }
+          100% { opacity: 0; transform: scale(1.1); }
+        }
+
+        /* 爆炸动画 */
+        .explosion {
+          animation: explosion-animation 0.6s ease-out forwards;
+        }
+        
+        @keyframes explosion-animation {
+          0% { transform: scale(0.5); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.8; }
+          100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* 爆炸粒子动画 */
+        .explosion-particle {
+          animation: particle-fly 0.8s ease-out forwards;
+        }
+        
+        @keyframes particle-fly {
+          0% { transform: translate(0, 0) scale(1); opacity: 1; }
+          100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+        }
+
+        /* 为不同方向的粒子设置不同的动画 */
+        .explosion-particle:nth-child(1) { --dx: -30px; --dy: -30px; }
+        .explosion-particle:nth-child(2) { --dx: 30px; --dy: -30px; }
+        .explosion-particle:nth-child(3) { --dx: -30px; --dy: 30px; }
+        .explosion-particle:nth-child(4) { --dx: 30px; --dy: 30px; }
+        .explosion-particle:nth-child(5) { --dx: 0px; --dy: -40px; }
+        .explosion-particle:nth-child(6) { --dx: 0px; --dy: 40px; }
+        .explosion-particle:nth-child(7) { --dx: -40px; --dy: 0px; }
+        .explosion-particle:nth-child(8) { --dx: 40px; --dy: 0px; }
+
+        /* 新增攻击形态样式 */
+        /* 元素攻击样式 */
+        .element-projectile {
+          animation: element-float 0.3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes element-float {
+          0% { transform: translateY(0px); }
+          100% { transform: translateY(-3px); }
+        }
+
+        /* 元素尾迹样式 */
+        .element-trail {
+          animation: trail-fade 0.3s ease-out forwards;
+        }
+        
+        @keyframes trail-fade {
+          0% { opacity: 0.6; transform: scale(1); }
+          100% { opacity: 0; transform: scale(0.5); }
+        }
+
+
+
+        /* 元素切换特效样式 */
+        .element-switch-effect {
+          animation: element-switch 2s ease-out forwards;
+        }
+        
+        @keyframes element-switch {
+          0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+          50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+          100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+
+        /* 攻击状态样式 */
+        .element-attack { background: linear-gradient(45deg, #ff6b6b, #ee5a52); }
+        .scatter-shot-attack { background: linear-gradient(45deg, #ff6b6b, #ee5a52); }
+        
+        /* 增强弹幕特效样式 */
+        .enhanced-projectile {
+            animation: projectilePulse 0.1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes projectilePulse {
+            0% { transform: scale(1); box-shadow: 0 0 15px #60a5fa, 0 0 25px #3b82f6, inset 0 0 8px #ffffff; }
+            100% { transform: scale(1.1); box-shadow: 0 0 20px #60a5fa, 0 0 30px #3b82f6, inset 0 0 10px #ffffff; }
+        }
+        
+        .enhanced-trail-particle {
+            animation: enhancedTrailFade 0.7s ease-out forwards;
+        }
+        
+        @keyframes enhancedTrailFade {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        .spread-trail-particle {
+            animation: spreadTrailFade 0.9s ease-out forwards;
+        }
+        
+        @keyframes spreadTrailFade {
+            0% { opacity: 1; transform: scale(1); }
+            70% { opacity: 0.5; transform: scale(1.3); }
+            100% { opacity: 0; transform: scale(0.3); }
+        }
+        
+        /* 蓄力攻击特效样式 */
+        .projectile--charged {
+            animation: chargedProjectilePulse 0.08s ease-in-out infinite alternate;
+        }
+        
+        @keyframes chargedProjectilePulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px #a855f7, 0 0 35px #7c3aed, 0 0 50px #5b21b6, inset 0 0 10px #ffffff; }
+            100% { transform: scale(1.15); box-shadow: 0 0 25px #a855f7, 0 0 40px #7c3aed, 0 0 55px #5b21b6, inset 0 0 12px #ffffff; }
+        }
+        
+        .charged-trail-particle {
+            animation: chargedTrailFade 0.8s ease-out forwards;
+        }
+        
+        @keyframes chargedTrailFade {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.4); }
+            100% { opacity: 0; transform: scale(0.4); }
+        }
+        
+        /* 散弹技能样式 */
+        .scatter-bullet {
+            animation: scatterBulletPulse 0.1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes scatterBulletPulse {
+            0% { transform: scale(1); box-shadow: 0 0 10px #ff6b6b, 0 0 15px #ee5a52, inset 0 0 4px #ffffff; }
+            100% { transform: scale(1.1); box-shadow: 0 0 15px #ff6b6b, 0 0 20px #ee5a52, inset 0 0 6px #ffffff; }
+        }
+        
+        .scatter-shot-flash {
+            animation: scatterShotFlash 0.3s ease-out forwards;
+        }
+        
+        @keyframes scatterShotFlash {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        .scatter-trail-particle {
+            animation: scatterTrailFade 0.5s ease-out forwards;
+        }
+        
+        @keyframes scatterTrailFade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+        
+        .scatter-hit-effect {
+            animation: scatterHitFade 0.3s ease-out forwards;
+        }
+        
+        @keyframes scatterHitFade {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+        /* 激光样式 */
+        .projectile--laser {
+            background: linear-gradient(to bottom, #ff0000, #ff4444, #ff0000);
+            box-shadow: 0 0 25px #ff0000, 0 0 50px #ff0000, 0 0 75px #ff0000;
+        }
+
+        /* 暂停界面样式 */
+        .pause-overlay {
+          position: fixed;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9));
+          display: none;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+        }
+
+        .pause-panel {
+          min-width: 380px;
+          max-width: 90vw;
+          padding: 35px 45px;
+          border-radius: 20px;
+          background: linear-gradient(180deg, rgba(59, 130, 246, 0.98), rgba(29, 78, 216, 0.95));
+          box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.8),
+            0 0 0 2px rgba(255, 255, 255, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+          border: 3px solid rgba(255, 255, 255, 0.4);
+          color: #ffffff;
+          text-align: center;
+          transform: scale(0.9);
+          opacity: 0;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+          .pause-panel {
+            min-width: 320px;
+            padding: 25px 30px;
+            margin: 20px;
+          }
+          
+          .pause-title {
+            font-size: 28px;
+          }
+          
+          .pause-subtitle {
+            font-size: 16px;
+          }
+          
+          .pause-button {
+            padding: 12px 20px;
+            min-width: 100px;
+            font-size: 14px;
+          }
+          
+          .pause-buttons {
+            flex-direction: column;
+            gap: 10px;
+          }
+        }
+
+        .pause-panel::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .pause-panel.show::before {
+          left: 100%;
+        }
+
+        .pause-panel.show {
+          transform: scale(1);
+          opacity: 1;
+          box-shadow: 
+            0 30px 60px rgba(0, 0, 0, 0.8),
+            0 0 0 3px rgba(255, 255, 255, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4),
+            0 0 40px rgba(59, 130, 246, 0.6);
+        }
+
+        .pause-title {
+          font-size: 36px;
+          font-weight: 800;
+          margin-bottom: 18px;
+          color: #ffffff;
+          text-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.8),
+            0 4px 8px rgba(0, 0, 0, 0.6);
+          letter-spacing: 1px;
+        }
+
+        .pause-subtitle {
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 30px;
+          color: #ffffff;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+          opacity: 0.95;
+        }
+
+        .pause-buttons {
+          display: flex;
+          gap: 15px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .pause-button {
+          padding: 14px 28px;
+          font-size: 16px;
+          font-weight: 700;
+          color: #ffffff;
+          background: linear-gradient(180deg, #3b82f6, #1d4ed8);
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-radius: 12px;
+          cursor: pointer;
+          box-shadow: 
+            0 6px 20px rgba(0, 0, 0, 0.4),
+            0 2px 4px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease;
+          min-width: 130px;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .pause-button:hover {
+          background: linear-gradient(180deg, #60a5fa, #3b82f6);
+          transform: translateY(-3px);
+          box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.5),
+            0 4px 8px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .pause-button.secondary {
+          background: linear-gradient(180deg, #6b7280, #4b5563);
+          box-shadow: 0 4px 12px rgba(107, 114, 128, 0.4);
+        }
+
+        .pause-button.secondary:hover {
+          background: linear-gradient(180deg, #9ca3af, #6b7280);
+          box-shadow: 0 6px 16px rgba(107, 114, 128, 0.6);
+        }
+
+        .pause-button.danger {
+          background: linear-gradient(180deg, #ef4444, #dc2626);
+          box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .pause-button.danger:hover {
+          background: linear-gradient(180deg, #f87171, #ef4444);
+          box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+        }
+
+        .pause-tips {
+          margin-top: 25px;
+          padding: 20px;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .pause-tips h4 {
+          margin: 0 0 15px 0;
+          color: #ffffff;
+          font-size: 16px;
+          font-weight: 600;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .pause-tips ul {
+          margin: 0;
+          padding-left: 25px;
+          text-align: left;
+          color: #ffffff;
+          font-size: 14px;
+          line-height: 1.6;
+        }
+
+        .pause-tips li {
+          margin-bottom: 8px;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 游戏暂停时的模糊效果 */
+        .game-paused .container {
+          transition: filter 0.3s ease;
+        }
+
+        .game-paused .pause-overlay {
+          display: flex;
+        }
+      </style>
+ <script>
+             // 攻击音效：根据浏览器支持选择 wav 或 mp3，并在每次攻击时播放新的 Audio 以支持快速连击
+             const __attackCanPlayWav = (function(){
+                 try { return (new Audio()).canPlayType('audio/wav'); } catch(e) { return ''; }
+             })();
+             const ATTACK_SOUND_SRC = __attackCanPlayWav ? './攻击音效.wav' : './攻击音效.mp3';
+             function playAttackSound() {
+                 try {
+                     const a = new Audio(ATTACK_SOUND_SRC);
+                     a.volume = 0.8;
+                     a.play().catch(function(){ /* 忽略播放失败（如未获得用户手势）*/ });
+                 } catch(e) { /* 忽略异常 */ }
+             }
+
+             // 背景音乐控制
+             let backgroundMusic = null;
+             let musicStarted = false;
+
+             // 初始化背景音乐
+             function initBackgroundMusic() {
+                 try {
+                     backgroundMusic = new Audio('./unravel.mp3');
+                     backgroundMusic.loop = true;
+                     backgroundMusic.volume = 0.6;
+                     
+                     // 设置音频加载完成后的处理
+                     backgroundMusic.addEventListener('canplaythrough', function() {
+                         console.log('背景音乐加载完成');
+                     });
+                     
+                     // 设置音频播放结束后的处理（虽然设置了循环，但以防万一）
+                     backgroundMusic.addEventListener('ended', function() {
+                         if (backgroundMusic.loop) {
+                             backgroundMusic.currentTime = 0;
+                             backgroundMusic.play().catch(e => console.log('音乐循环播放失败:', e));
+                         }
+                     });
+                     
+                     // 设置音频播放错误处理
+                     backgroundMusic.addEventListener('error', function(e) {
+                         console.log('背景音乐播放错误:', e);
+                     });
+                     
+                 } catch(e) {
+                     console.log('初始化背景音乐失败:', e);
+                 }
+             }
+
+             // 开始播放背景音乐
+             function startBackgroundMusic() {
+                 if (!musicStarted && backgroundMusic) {
+                     try {
+                         backgroundMusic.play().then(() => {
+                             musicStarted = true;
+                             console.log('背景音乐开始播放');
+                         }).catch(e => {
+                             console.log('背景音乐播放失败:', e);
+                         });
+                     } catch(e) {
+                         console.log('播放背景音乐时出错:', e);
+                     }
+                 }
+             }
+
+             // 停止背景音乐
+             function stopBackgroundMusic() {
+                 if (backgroundMusic && musicStarted) {
+                     try {
+                         backgroundMusic.pause();
+                         backgroundMusic.currentTime = 0;
+                         musicStarted = false;
+                         console.log('背景音乐已停止');
+                     } catch(e) {
+                         console.log('停止背景音乐时出错:', e);
+                     }
+                 }
+             }
+
+             // 设置背景音乐音量
+             function setBackgroundMusicVolume(volume) {
+                 if (backgroundMusic) {
+                     backgroundMusic.volume = Math.max(0, Math.min(1, volume));
+                 }
+             }
+
+             // 页面加载完成后初始化背景音乐
+             window.addEventListener('load', function() {
+                 initBackgroundMusic();
+             });
+
+             // 用户交互事件监听器，用于触发背景音乐播放
+             function setupMusicTriggers() {
+                 // 监听所有可能的用户交互事件
+                 const events = ['click', 'keydown', 'touchstart', 'mousedown'];
+                 
+                 events.forEach(eventType => {
+                     document.addEventListener(eventType, function(e) {
+                         // 如果音乐还没开始播放，则开始播放
+                         if (!musicStarted) {
+                             startBackgroundMusic();
+                         }
+                     }, { once: false, passive: true });
+                 });
+
+                 // 特别监听游戏控制按钮的点击
+                 document.addEventListener('click', function(e) {
+                     if (e.target.tagName === 'BUTTON') {
+                         if (!musicStarted) {
+                             startBackgroundMusic();
+                         }
+                     }
+                 }, { once: false, passive: true });
+             }
+        </script>
+
+</head>
+<body>
+    <div class="container">
+        <div id="boundary">
+            <!-- 在GAME/游戏1.html的boundary内添加NPC元素 -->
+<div id="npc">
+    <div id="npc-hp" class="hp">
+        <div id="npc-hp-bar" class="hp__bar hp__bar--npc"></div>
+    </div>
+    <i class="fa fa-user-secret fa-5x text-red-600" aria-hidden="true"></i>
+</div>
+            <div class="ground"></div>
+            <div id="character">
+                <div id="player-hp" class="hp">
+                    <div id="player-hp-bar" class="hp__bar hp__bar--player"></div>
+                </div>
+                <!-- 蓄力条放在角色血条下方 -->
+                <div id="charge-bar-container" class="charge-bar-container">
+                    <div id="charge-bar" class="charge-bar">
+                        <div id="charge-bar-fill" class="charge-bar-fill"></div>
+                        <div id="charge-text" class="charge-text">0%</div>
+                    </div>
+                </div>
+                <i class="fa fa-user-circle-o fa-5x text-blue-600" aria-hidden="true"></i>
+            </div>
+        </div>
+        
+        <!-- 暂停界面 -->
+        <div id="pause-overlay" class="pause-overlay">
+            <div class="pause-panel">
+                <div class="pause-title">游戏暂停</div>
+                <div class="pause-subtitle">按ESC键继续游戏</div>
+                <div id="game-time-display" class="pause-subtitle" style="margin-top: 15px; font-size: 16px; color: #fbbf24; font-weight: 600; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);"></div>
+                
+                <div class="pause-buttons">
+                    <button class="pause-button" onclick="resumeGame()">继续游戏</button>
+                    <button class="pause-button secondary" onclick="restartGame()">重新开始</button>
+                    <button class="pause-button danger" onclick="quitGame()">退出游戏</button>
+                </div>
+                
+                <div class="pause-tips">
+                    <h4>游戏提示</h4>
+                    <ul>
+                        <li>ESC键：暂停/继续游戏</li>
+                        <li>WASD：移动角色</li>
+                        <li>空格：跳跃</li>
+                        <li>J：普通攻击</li>
+                        <li>K：防御</li>
+                        <li>Q：元素攻击</li>
+                        <li>R：切换元素</li>
+                        <li>I：时间减速</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button onclick="moveCharacter(-20, 0)">左 (A键)</button>
+            <button onclick="moveCharacter(20, 0)">右 (D键)</button>
+            <button onclick="jump()">跳跃 (空格键)</button>
+            <p class="info">控制: <span class="key">A</span>左, <span class="key">D</span>右, <span class="key">空格</span>跳跃, <span class="key">J</span>攻击, <span class="key">K</span>防御, <span class="key">ESC</span>暂停</p>
+            <p class="info">攻击形态: <span class="key">Q</span>元素攻击, <span class="key">R</span>切换元素</p>
+            <p class="info">特殊攻击: <span class="key">U</span>近战, <span class="key">I</span>散弹, <span class="key">H</span>蓄力</p>
+            
+            <!-- 元素状态显示 -->
+            <div id="element-display" style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);">
+                <p style="margin: 0 0 8px 0; color: #ffffff; font-weight: bold;">当前元素: <span id="current-element" style="color: #ff4444;">火</span></p>
+                <div id="element-effects" style="font-size: 12px; color: #cccccc;">
+                    <div>火元素: 持续燃烧伤害</div>
+                    <div>冰元素: 冰冻减速效果</div>
+                    <div>雷元素: 眩晕控制效果</div>
+                    <div>土元素: 击退增强效果</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+   
+<script>
+        const character = document.getElementById('character');
+        const boundary = document.getElementById('boundary');
+        </script>
+       
+
+        <script src="./js/跳跃系统.js"></script>
+        <script src="./js/获取地面位置.js"></script>
+        <script src="./js/模拟重力.js"></script>
+        <script src="./js/落地.js"></script>
+        <script src="./js/跳跃功能.js"></script>
+        <script src="./js/移动.js"></script>
+        <script src="./js/攻击防御.js"></script>
+        <script src="./js/按键功能.js"></script>
+        <script src="./js/游戏主循环.js"></script>
+
+        <!-- 在GAME/游戏1.html的脚本引入部分添加 -->
+        <script src="./js/NPC行为.js"></script>
+        
+        <!-- 蓄力系统 -->
+        <script src="./js/蓄力系统.js"></script>
+        
+        <!-- 暂停系统 -->
+        <script src="./js/暂停系统.js"></script>
+
+
+       <script>
+          
+        gameLoop();
+        // 在GAME/游戏1.html的初始化脚本中添加
+npc.style.top = getGroundPosition() + 'px';
+        
+        character.style.top = getGroundPosition() + 'px';
+        // 初始化血条
+        const playerBar = document.getElementById('player-hp-bar');
+        const npcBar = document.getElementById('npc-hp-bar');
+        if (playerBar) playerBar.style.width = '100%';
+        if (npcBar) npcBar.style.width = '100%';
+
+        // 设置音乐触发器
+        setupMusicTriggers();
+    </script>
+</body>
+</html>

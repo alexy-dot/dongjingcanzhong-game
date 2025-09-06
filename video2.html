@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏结局视频</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        #autoplayVideo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 跳过按钮样式 */
+        #skipButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        /* 声音开启提示 */
+        #unmutePrompt {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-family: sans-serif;
+            text-align: center;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <!-- 视频元素（默认静音，确保能自动播放） -->
+    <video 
+        id="autoplayVideo" 
+        autoplay 
+        muted 
+        playsinline
+    >
+        <source src="904_1757077062.mp4" type="video/mp4">
+        您的浏览器不支持HTML5视频播放。
+    </video>
+    
+    <!-- 跳过按钮 -->
+    <button id="skipButton">跳过</button>
+    
+    <!-- 声音开启提示 -->
+    <div id="unmutePrompt">
+        点击任意位置开启声音
+    </div>
+
+    <script>
+        const video = document.getElementById('autoplayVideo');
+        const skipButton = document.getElementById('skipButton');
+        const unmutePrompt = document.getElementById('unmutePrompt');
+        const targetUrl = "index1.html"; // 视频播放完后返回主菜单
+        
+        // 页面加载后尝试播放视频（默认静音）
+        window.addEventListener('load', () => {
+            video.play().catch(error => {
+                console.error('自动播放失败，等待用户交互:', error);
+            });
+        });
+        
+        // 用户点击页面任意位置时开启声音
+        document.body.addEventListener('click', enableSound, { once: true });
+        
+        // 开启声音函数
+        function enableSound() {
+            // 隐藏提示
+            unmutePrompt.style.display = 'none';
+            
+            // 解除静音并设置音量
+            video.muted = false;
+            video.volume = 1.0; // 最大音量
+            
+            // 确保视频在播放状态
+            if (video.paused) {
+                video.play();
+            }
+        }
+        
+        // 跳过按钮点击事件
+        skipButton.addEventListener('click', () => {
+            window.location.href = targetUrl;
+        });
+        
+        // 视频播放结束自动跳转
+        video.addEventListener('ended', () => {
+            window.location.href = targetUrl;
+        });
+    </script>
+</body>
+</html>

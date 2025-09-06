@@ -1,0 +1,43 @@
+/* 在GAME/CSS文件/角色.css中添加 */
+#npc {
+    background-image: url(../壁虎抠图版.png); /* 默认壁虎图片 */
+    background-size: cover;
+    width: 100px;
+    height: 150px;
+    position: absolute;
+    right: 250px; /* 初始位置与主角不同 */
+    transition: all 0.05s ease;
+}
+
+#npc.facing-left {
+    transform: scaleX(-1);
+    background-image: url(../壁虎抠图版.png); /* 面向左侧时使用默认壁虎图片 */
+}
+
+#npc.facing-right {
+    transform: scaleX(1);
+    background-image: url(../壁虎右.png); /* 面向右侧时使用壁虎右.png */
+}
+
+#npc.jumping {
+    transform: scale(1.0);
+}
+
+#npc.landing {
+    transform: scale(0.95);
+}
+
+#npc.attacking {
+    transform: scale(1.1) rotate(10deg);
+    background-image: url(../壁虎攻击.png);
+}
+
+/* NPC攻击物专属样式 */
+/* 在GAME/CSS文件/NPC.css中修改 */
+.npc-projectile {
+    background-image: url(../攻击特效.png);
+    width: 30px;
+    height: 30px;
+    position: absolute; /* 添加绝对定位 */
+    z-index: 10; /* 确保显示在角色上方 */
+}
